@@ -1,0 +1,69 @@
+<!--
+	Paul Arzul
+	Charles-Lewis Jaggi
+	Thibault Haldenwang
+	Steven Jeanneret
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <title>Document</title>
+    <script src="main.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Algorithme numérique - Labo 5</h1>
+    <h2>Intégration</h2>
+    <div class="row">
+    </div>
+    <div class="w-100"></div>
+    <br/>
+    <div class="w-100"></div>
+
+    <div class="col">
+        <button class="btn btn-primary" onclick="solve();">Solve</button>
+        <h4>Pi</h4>
+        <p id="pi"></p>
+        <h4>Approximation</h4>
+        <p id="result"></p>
+        <h4>Temps de calcul</h4>
+        <p id="time"></p>
+    </div>
+    <div class="container">
+        <h2>Contextualisation</h2>
+		<p>Le but du laboratoire est de pouvoir obtenir un approximation de pi en effectuant un intégrale sur une formule donnée</p>
+
+    </div>
+    <div class="container">
+        <h2>Méthodologie</h2>
+		<p>La méthode des point milieu est utilisée pour réaliser l'intégrale. De plus un calcul d'erreur local est effectué pour chaque n qui, 
+		une fois additionné, nous donne une erreur globale. Ainsi le résultat obtenu est une approximation comprise dans une plage de valeur correspondant
+		aux extrèmes de l'erreur.</p>
+
+    </div>
+    <div class="container">
+        <h2>Conclusion</h2>
+		<p>Le résultat obtenu en incluant l'erreur nous donne une approximation correcte et rapide de pi. Cepandant il est difficile d'avoir une
+		approximation ayant directement les 17 décimales voulues, ceci étant certainement dû au fait que l'erreur machine, correspondant à 2^-52
+        soit plus grande que la précision voulue.</p>
+        
+        <p>L'interprétation graphique consiste à tracer des lignes, les points étant donnés par des couples de 3 décimales
+            de Pi.
+        </p>
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="drawPi();">Draw</button>     
+        <label>Nombre de décimales à dessiner:</label>
+        <input type="number" id="numberOfDecimals" value="200"
+                    min="6" step="6" max="1000" class=" form-control"/>       
+        <canvas id="piGraphic" width="999" height="999"></canvas>
+    </div>
+</div>
+</body>
+</html>
