@@ -1,6 +1,6 @@
 
 <!--Objet: Algo Num tp5-->
-<!--Date: 30 avril 2019-->
+<!--Date: 5 mai 2019-->
 <!--
 	Rosca Sol
 	Seuret Tristan
@@ -20,43 +20,39 @@
     <h1>Algorithme numérique - Labo 5</h1>
     <h2>Intégration</h2>
     <div>
-		<!-- <button onclick="solve();">Solve</button> -->
 		<button v-on:click="solvePi()">Solve</button>
         <h4>Pi</h4>
         <p>{{ pi }}</p>
         <h4>Approximation</h4>
         <p>{{result}} +/- {{incertitude}}</p>
         <h4>Temps de calcul</h4>
-        <p>{{time}}</p>
+        <p>{{time}} ms</p>
     </div>
     <div>
         <h2>Contextualisation</h2>
-		<p>Le but du laboratoire est de pouvoir obtenir un approximation de pi en effectuant un intégrale sur une formule donnée</p>
+		<p>Le but du laboratoire est d'obtenir une approximation de pi en utilisant des intégrales</p>
 
     </div>
     <div>
         <h2>Méthodologie</h2>
-		<p>La méthode des point milieu est utilisée pour réaliser l'intégrale. De plus un calcul d'erreur local est effectué pour chaque n qui, 
-		une fois additionné, nous donne une erreur globale. Ainsi le résultat obtenu est une approximation comprise dans une plage de valeur correspondant
-		aux extremes de l'erreur.</p>
-
+		<p>La méthode "point milieu" est utilisée pour réaliser l'intégrale. L'erreur local est calculée pour chaque n. L'addition de toutes
+			les erreurs locales permet d'avoir le résultat de l'erreur globale. Le résultat final est donnée avec son incertitude. </p>
     </div>
     <div>
         <h2>Conclusion</h2>
-		<p>Le résultat obtenu en incluant l'erreur nous donne une approximation correcte et rapide de pi. Cepandant il est difficile d'avoir une
-		approximation ayant directement les 17 décimales voulues, ceci étant certainement dû au fait que l'erreur machine, correspondant à 2^-52
+		<p>Le résultat obtenu avec son erreur global nous permet d'avoir une approximation correcte et rapide de pi. Cependant il est difficile d'avoir une
+		approximation ayant directement les 17 décimales voulues, ceci étant certainement dû au fait que l'erreur machine, correspondant à
         soit plus grande que la précision voulue.</p>
         
-        <p>L'interprétation graphique consiste à tracer des lignes, les points étant donnés par des couples de 3 décimales
-            de Pi.
-        </p>
+        <p>L'interprétation graphique montre le chiffre de chaque décimal. Il donne un rectangle qui correspond à sa valeur et qui est additionné par le nombre d'occurrences du chiffre.</p>
     </div>
-    <div>
-        <button v-on:click="drawPi();">Draw</button>     
+    <div>   
         <label>Nombre de décimales à dessiner:</label>
-        <input v-model="decimal" type="number" id="numberOfDecimals" value="200"
-                    min="6" step="6" max="1000"/>       
-        <canvas id="piGraphic" width="999" height="999"></canvas>
+		<input v-model="decimal" type="number" value="200" min="1" step="5" max="1000" />
+		<br><br>
+		<div><input v-model="decimal" type="range" min="1" max="1000" value="200" step="5" class="slider"></div>
+		<br><br>      
+        <canvas id="piGraphic" width="999" height="1500"></canvas>
     </div>
 </div>
 
@@ -80,16 +76,36 @@
 			decimal(value) { this.draw(); },
 		},
 		methods: {
-			drawPi(){
-				this.draw();
-			},
 			solvePi(){
-				solve();
+				let integr = new IntegralPi();
+				integr.solve();
+				this.result = integr.data.result;
+				this.incertitude = integr.data.incertitude;
+				this.time = integr.data.time;
 			},
+			draw() {
+				let canvas = document.getElementById('piGraphic');
+				let context = canvas.getContext('2d');
+				context.clearRect(0, 0, canvas.width, canvas.height);
+
+				let piString = pi_decimals;
+				let point = 0
+				let pointValue = [0,0,0,0,0,0,0,0,0,0];
+
+				for(let i = 0;i<this.decimal;i+=1){
+					context.beginPath();
+					point = parseInt(piString.substring(i,i+1));
+					pointValue[point]+=1;
+					context.strokeRect(0, 0, point * 100 + pointValue[point], point * 100 + pointValue[point]* 2);
+					context.strokeStyle = '#' + Math.random().toString(16).substr(-6);
+					context.stroke();
+				}
+				console.log(pointValue);
+			}
 		},
 		mounted() {
-			this.solvePi();
-		},
+			this.draw();
+		}
 	});
 </script>
 
