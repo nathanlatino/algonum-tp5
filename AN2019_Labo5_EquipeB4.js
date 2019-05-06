@@ -17,25 +17,53 @@ class IntegralPi{
 			result: null,
 			incertitude: null
 		};
-		this.solve();
 	}
 
+	/**
+	 * find pi with time and uncertainty
+	 */
 	solve() {
-		let start = 0;
-		let end = 1;
-		let step = Math.pow(2, -20);
+		let times = [];
+		let iteration = 10
 
-		let timeAtStart = performance.now();
-		let res = this.integrate(start, end, step);
-		let timeAtEnd = performance.now();
-		let effectiveTime = timeAtEnd - timeAtStart;
+		for(let i = 0; i < iteration; i++) {
+			let start = 0;
+			let end = 1;
+			let step = Math.pow(2, -20);
 
-		this.data.time = effectiveTime.toFixed(3);
-		this.data.result = res[0].toFixed(25);
-		this.data.incertitude = res[1].toFixed(25);
+			let timeAtStart = performance.now();
+			let res = this.integrate(start, end, step);
+			let timeAtEnd = performance.now();
+			let effectiveTime = timeAtEnd - timeAtStart;
+
+			times.push(effectiveTime); 
+			this.data.result = res[0].toFixed(25);
+			this.data.incertitude = res[1].toFixed(25);
+		}
+		this.average_time(times, iteration)
+		
 	}
 
-	//Riemann
+	/**
+	 * Get the average
+	 * @param {list of times} times
+	 * @param {the number of iteration} iteration 
+	 */
+	average_time(times, iteration) {
+		let tempTime = 0;
+		times.forEach(element => {
+			tempTime += element;
+		});
+		this.data.time = tempTime / iteration;
+	}
+
+	/**
+	 * calculate the pi with his errors
+	 * Riemann
+	 * @param {a} begin 
+	 * @param {b} end 
+	 * @param {nb of rectangle} step 
+	 */
 	integrate(begin, end, step) {
 		let result = 0;
 		let error = 0;
@@ -47,14 +75,27 @@ class IntegralPi{
 		return [result * 4, error];
 	}
 
+	/**
+	 * fonction of pi first
+	 * @param {value} x 
+	 */
 	f(x) {
 		return 1 / (1 + x * x);
 	}
 
+	/**
+	 * third derivative
+	 * @param {value} x 
+	 */
 	ftertiaire(x) {
 		return (8 * x * x) / Math.pow((x * x + 1), 3) - 2 / Math.pow((x * x + 1), 2);
 	}
 
+	/**
+	 * Calculate for one step a error 
+	 * @param {*} x 
+	 * @param {*} step 
+	 */
 	calcLocalError(x, step) {
 		return (-this.ftertiaire(x) / 24) * Math.pow(step, 3);
 	}

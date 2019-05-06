@@ -17,8 +17,16 @@
 </head>
 <body>
 <div id="app">
+	<span>Samedi 30 mars 2019</span>
     <h1>Algorithme numérique - Labo 5</h1>
-    <h2>Intégration</h2>
+	<h2>Intégration</h2>
+	<b>Groupe B4:</b>
+	<ul>
+		<li>Tristan Seuret</li>
+		<li>Nathan Latino</li>
+		<li>Jonas Vallat</li>
+		<li>Sol Rosca</li>
+	</ul>
     <div>
 		<button v-on:click="solvePi()">Solve</button>
         <h4>Pi</h4>
@@ -35,16 +43,22 @@
     </div>
     <div>
         <h2>Méthodologie</h2>
-		<p>La méthode "point milieu" est utilisée pour réaliser l'intégrale. L'erreur local est calculée pour chaque n. L'addition de toutes
-			les erreurs locales permet d'avoir le résultat de l'erreur globale. Le résultat final est donnée avec son incertitude. </p>
+		<p>
+			La méthode "point milieu" est utilisée pour réaliser l'intégrale. L'erreur local est calculée pour chaque n. L'addition de toutes
+			les erreurs locales permet d'avoir le résultat de l'erreur globale. Le résultat final est donné avec son incertitude.
+		</p>
     </div>
     <div>
         <h2>Conclusion</h2>
-		<p>Le résultat obtenu avec son erreur global nous permet d'avoir une approximation correcte et rapide de pi. Cependant il est difficile d'avoir une
-		approximation ayant directement les 17 décimales voulues, ceci étant certainement dû au fait que l'erreur machine, correspondant à
-        soit plus grande que la précision voulue.</p>
-        
-        <p>L'interprétation graphique montre le chiffre de chaque décimal. Il donne un rectangle qui correspond à sa valeur et qui est additionné par le nombre d'occurrences du chiffre.</p>
+		<p>
+			Le résultat obtenu avec son erreur global nous permet d'avoir une approximation correcte et rapide de pi. Cependant il est difficile d'avoir une
+			approximation ayant directement les 17 décimales voulues. L'erreur grandit lorsque l'on calcule des décimales qui se rapprochent de plus en plus d'epsilon.
+			Le temps est donné par une moyenne de 10 itérations de solve. Cette valeur peut être modifier.
+		</p>
+        <p>
+			L'interprétation graphique montre les chiffres de chaque décimal. Il donne un rectangle qui correspond à sa valeur et qui est additionné par le nombre d'occurrences du chiffre.
+			Le premier carré correspond au chiffre 0 et il va jusqu'à 9.
+		</p>
     </div>
     <div>   
         <label>Nombre de décimales à dessiner:</label>
